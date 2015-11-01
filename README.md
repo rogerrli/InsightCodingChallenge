@@ -6,4 +6,5 @@ So this is my ANSWER to the challenge posted here -->https://github.com/InsightD
 I hope I did this right as I have little experience but it was FUN. 
 
 ### Some dependencies I used
-I DONT EVEN KNOW WHAT THAT MEANS brb :laughing:
+numpy==1.10.1
+wheel==0.24.0
