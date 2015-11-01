@@ -35,7 +35,8 @@ def obtain_hashtags(hashtags):
     hashtag_return = []
     if len(hashtags) > 1:
         for i in range(1, len(hashtags) - 1):
-            hashtag_return.append(hashtags[i].split(' ', 1)[0].lower())
+            if not hashtags[i].split(' ', 1)[0].lower().isspace():
+                hashtag_return.append(hashtags[i].split(' ', 1)[0].lower())
         hashtag_return = np.array(hashtag_return)
     return hashtag_return
 
@@ -51,7 +52,7 @@ def hashtag_graph(hashtags, graph, timestamp_ms):
     num_vertices = find_num_vertices(graph)
     num_edges = len(graph) * 2
     if num_vertices > 0:
-        ratio = num_edges / num_vertices
+        ratio = round(num_edges / num_vertices, 2)
     else:
         ratio = np.NaN
     return ratio, graph
