@@ -41,6 +41,13 @@ def read_in_file():
     print('Edge to vertex ratio of hashtag graph saved in: ' + output_edge_vertex_ratio[1:])
 
 
+"""
+Obtains the an array of strings, from an original tweet that has been split by a hashtag symbol
+Returns an array of the cleaned hashtags if there is at least one hashtag (2 or more elements in the
+original array. This also eliminates any "empty" hashtags due to elimination of Unicode.
+"""
+
+
 def obtain_hashtags(hashtags):
     hashtag_return = []
     if len(hashtags) > 1:
@@ -49,6 +56,20 @@ def obtain_hashtags(hashtags):
                 hashtag_return.append(hashtags[i].split(' ', 1)[0].lower())
         hashtag_return = np.array(hashtag_return)
     return hashtag_return
+
+
+"""
+Takes in an array of cleaned hashtags, the graph, and the time.
+If there is more than one hashtag, will continue to move to creating an edge between every hashtag with each other
+This is done by sorting all the hashtags so they are in alphanumerical order. Then for every hashtag, and every hashtag
+after it, an edge is formed, and a timestamp is attached. This is appended to graph.
+Graph is sorted by time, not alphabetically. This allows for delete_old_edges to perform quickly by treating the
+variable hashtag as a FIFO data structure.
+In order to check for if the edge exists, every two hashtags will create the same exact array of two elements if they
+are sorted against each other. For example, an edge between 'a' and 'b' would create [a,b,time] as an element in graph.
+There will not be an element in graph that is [b,a,time], since the hashtag pair will always be sorted. This will allow
+for only unique edges in graph.
+"""
 
 
 def hashtag_graph(hashtags, graph, timestamp_ms):
@@ -68,6 +89,13 @@ def hashtag_graph(hashtags, graph, timestamp_ms):
     return ratio, graph
 
 
+"""
+This checks if the edge doesn't exists. Since we have preserved alphabetical order in every single element within graph,
+we can check the first words first (both of which of their respective pairs will be first alphabetically), and if that
+passes then check the second hashtag.
+"""
+
+
 def edge_does_not_exist(first, second, graph):
     if first != second:
         for edge in graph:
@@ -76,6 +104,12 @@ def edge_does_not_exist(first, second, graph):
         return True
     else:
         return False
+
+
+"""
+This will delete old edges if they expire. Because the variable graph is a FIFO list, we can keep popping the first
+element if it's too old.
+"""
 
 
 def delete_old_edges(graph, time):
@@ -87,6 +121,12 @@ def delete_old_edges(graph, time):
         else:
             continue_delete = False
     return graph
+
+
+"""
+This finds the number of unique hashtags (all lowercase) in the graph by just looping through graph and appending new
+hashtag if it isn't there already, and does this for both hashtags in the edge.
+"""
 
 
 def find_num_vertices(graph):
