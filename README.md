@@ -11,7 +11,7 @@ numpy==1.10.1
 wheel==0.24.0
 
 ### Some notes :clipboard: :clipboard: :clipboard:
-I implemented this on Python 3.4.3, which actually ran into some issues with the decoding/encoding of the tweets. Apparently, Python 3 uses Unicode for their str variables, so this may have explained why I had to use so many encode() and decode() methods in order to "filter" out any \u**** characters. In Python 2.7 or so, I'm not exactly sure if this would be the case, but if not, I doubt there would be as much character "type-casting". This could maybe speed things up. :racehorse: :dash:
+I implemented this on Python 3.4.3, which actually ran into some issues with the decoding/encoding of the tweets. Apparently, Python 3 uses Unicode for their str variables, so this may have explained why I had to use so many encode() and decode() methods in order to "filter" out any \u**** characters. In Python 2.7 or so, I'm not exactly sure if this would be the case, but if not, I doubt there would be as much character "type-casting". This could maybe speed things up. Maybe. I'll have to look into it. :racehorse: :dash:
 
 I did not implement any of the "get-tweets" on my own as my experience with dev-ops is limited and did not want to remove focus on the priority. I did try to use the get-tweets.py on my own twitter account, but there seems to be a problem with some version control as there was issues compiling when I imported tweepy, and I again did not want to focus on this aspect of the project. :confused: :confused: :confused:
 
