@@ -62,11 +62,13 @@ If there is more than one hashtag, will continue to move to creating an edge bet
 This is done by sorting all the hashtags so they are in alphanumerical order. Then for every hashtag, and every hashtag
 after it, an edge is formed, and a timestamp is attached. This is appended to graph.
 Graph is sorted by time, not alphabetically. This allows for delete_old_edges to perform quickly by treating the
-variable hashtag as a FIFO data structure.
+variable graph as a FIFO data structure.
 In order to check for if the edge exists, every two hashtags will create the same exact array of two elements if they
 are sorted against each other. For example, an edge between 'a' and 'b' would create [a,b,time] as an element in graph.
 There will not be an element in graph that is [b,a,time], since the hashtag pair will always be sorted. This will allow
-for only unique edges in graph.
+for only unique edges in graph. Since every edge is unique, and will have the same alphabetical order, it should allow
+for searching if the edge exists relatively quick; I dont have to worry about any different combinations that essentially
+represent the same edge
 """
 
 
