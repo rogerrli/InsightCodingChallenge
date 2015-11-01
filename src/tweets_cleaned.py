@@ -37,7 +37,7 @@ def read_in_file():
     outfile_cleaned_tweets.write(str(unicode_tweets) + " number of tweets with Unicode")
     outfile_cleaned_tweets.close()
     outfile_edge_vertex_ratio.close()
-    
+
 
 """
 Obtains the an array of strings, from an original tweet that has been split by a hashtag symbol
