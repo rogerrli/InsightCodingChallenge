@@ -18,14 +18,11 @@ def read_in_file():
                 try:
                     current_text = json.dumps(jfile['text']).encode('ascii').decode('unicode_escape') \
                         .encode('ascii', 'ignore').decode('utf8').replace("\n", " ").replace('"', '')
-                    current_time = json.dumps(jfile['created_at']).encode('ascii').decode('unicode_escape') \
-                        .encode('ascii', 'ignore').decode('utf8').replace('"', '')
                     timestamp_ms = json.dumps(jfile['timestamp_ms']).encode('ascii').decode('unicode_escape') \
                         .encode('ascii', 'ignore').decode('utf8')
                     hashtags = obtain_hashtags(current_text.split('#'))
                     average_degree, graph = hashtag_graph(hashtags, graph, int(timestamp_ms[1:len(timestamp_ms)-1]))
-                    output_line = current_text + " (timestamp: " + current_time + ")"
-                    outfile.write(output_line)
+                    outfile.write(str(average_degree))
                     outfile.write('\n')
                 except KeyError:
                     pass
@@ -49,11 +46,15 @@ def hashtag_graph(hashtags, graph, timestamp_ms):
         for first_hashtag in np.arange(len(hashtags) - 1):
             for second_hashtag in hashtags[first_hashtag + 1:]:
                 if edge_does_not_exist(hashtags[first_hashtag], second_hashtag, graph):
-                    print('new edge added')
                     graph.append([hashtags[first_hashtag], second_hashtag, timestamp_ms])
     graph = delete_old_edges(graph, timestamp_ms)
+    num_vertices = find_num_vertices(graph)
     num_edges = len(graph) * 2
-    return 0, graph
+    if num_vertices > 0:
+        ratio = num_edges / num_vertices
+    else:
+        ratio = np.NaN
+    return ratio, graph
 
 
 def edge_does_not_exist(first, second, graph):
@@ -75,6 +76,16 @@ def delete_old_edges(graph, time):
         else:
             continue_delete = False
     return graph
+
+
+def find_num_vertices(graph):
+    list_of_vertices = []
+    for edge in graph:
+        if edge[0] not in list_of_vertices:
+            list_of_vertices.append(edge[0])
+        if edge[1] not in list_of_vertices:
+            list_of_vertices.append(edge[1])
+    return len(list_of_vertices)
 
 
 def main():
