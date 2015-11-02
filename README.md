@@ -15,6 +15,6 @@ I did not use numpy as you may have noticed but I did implement it in my earlier
 
 I did not implement any of the "get-tweets" on my own as my experience with dev-ops is limited and did not want to remove focus on the priority. I did try to use the get-tweets.py on my own twitter account, but there seems to be a problem with some version control as there was issues compiling when I imported tweepy, and I again, this was not the focus of the project, so I quickly moved on and only used your tweets.txt file. :confused: :confused: :confused:
 
-My earlier implementation of tweets_cleaned.py included a nested try: block. This was because previously the tweets.txt file, on line 5 had 2 Json objects, which would make the reading much more difficult. I did not know if this was done on purpose to make the program more robust towards faulty entry data, but I removed this block when a fix to the tweets.txt file was made. 
+My earlier implementation of tweets_cleaned.py included a nested try: block. This was done because the tweets.py had two JSON objects on line 5, essentially screwing up one of the functions and causing it to throw an error. This was fixed promptly and I removed this try: block because of that.
 
 :moyai: :moyai: :moyai:
