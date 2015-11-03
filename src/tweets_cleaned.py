@@ -77,7 +77,11 @@ def hashtag_graph(hashtags, graph, timestamp_ms):
     if len(hashtags) > 1:
         for first_hashtag in range(0, len(hashtags) - 1):
             for second_hashtag in hashtags[first_hashtag + 1:]:
-                if edge_does_not_exist(hashtags[first_hashtag], second_hashtag, graph):
+                edge_does_exist, index = does_edge_exist(hashtags[first_hashtag], second_hashtag, graph)
+                if edge_does_exist and index >= 0:
+                    graph.pop(index)
+                    graph.append([hashtags[first_hashtag], second_hashtag, timestamp_ms])
+                elif not edge_does_exist:
                     graph.append([hashtags[first_hashtag], second_hashtag, timestamp_ms])
     graph = delete_old_edges(graph, timestamp_ms)
     num_vertices = find_num_vertices(graph)
@@ -89,19 +93,19 @@ def hashtag_graph(hashtags, graph, timestamp_ms):
     return ratio, graph
 
 
-def edge_does_not_exist(first, second, graph):
+def does_edge_exist(first, second, graph):
     """
-    This checks if the edge doesn't exists. Since we have preserved alphabetical order in every single element within graph,
+    This checks if the edge does exists. Since we have preserved alphabetical order in every single element within graph,
     we can check the first words first (both of which of their respective pairs will be first alphabetically), and if that
     passes then check the second hashtag.
     """
     if first != second:
-        for edge in graph:
-            if edge[0] == first and edge[1] == second:
-                return False
-        return True
+        for i in range(0, len(graph)):
+            if graph[i][0] == first and graph[i][1] == second:
+                return True, i
+        return False, -1
     else:
-        return False
+        return True, -1
 
 
 def delete_old_edges(graph, time):
