@@ -93,6 +93,7 @@ def hashtag_graph(hashtags, graph, timestamp_ms):
     return ratio, graph
 
 
+
 def does_edge_exist(first, second, graph):
     """
     This checks if the edge does exists. Since we have preserved alphabetical order in every single element within graph,
